@@ -13,9 +13,9 @@ categories: work
 
 简化问题描述：将浏览器的可视窗口平均分为2 × 2的4份， 如图。分别记录鼠标在各个区域的停留时间总和，当然，不能影响页面的正常功能的使用。
 
-![页面区域示意](https://p5.ssl.qhimg.com/t0115c1991dec359ead.png)
+![页面区域示意](https://p5.ssl.qhimg.com/t01752acf18ecbe6aa7.png)
 
-当鼠标进入某块区域时开始计时， 移出时结束计时。很好理解，那问题就在于如何判断鼠标的所在区域。
+当鼠标进入某块区域时开始计时， 移出时结束计时。那问题就在于如何判断鼠标的所在区域。
 
 于是， 自然就想到了通过鼠标的坐标来判断所处区域 。
 
@@ -28,24 +28,24 @@ categories: work
 此外， 需要对该事件的触发频率进行优化，避免触发频率过快，造成不必要的计算开销。
 
 ```javascript
-// 节选代码
+// 主要代码
 const mouseTrack = () => {
   fromEvent(document, 'mousemove')
     .pipe(debounceTime(sampleTime))
-    .subscribe((e: MouseEvent) => {
-    	// 计算鼠标所在区域
-    	const { clientX, clientY } = e
-        let currentPart : number = 
+    .subscribe((e: MouseEvent) => {  
+      	const { clientX, clientY } = e
+        let currentPart : number = 	// 计算所在区域
           Math.floor(clientX / unitWidth) + 
-          n * Math.floor(clientY / unitHeight)
-    	// 当前时刻
-    	const now = new Date().getTime()
+          n * Math.floor(clientY / unitHeight)；
+ 
+    	const now = new Date().getTime()；
     	try {
-        	  record[lastPart].duration += now - tick
+        	  record[lastPart].duration += now - tick；
     	} catch(err) {}
-        tick = now
-        lastPart = currentPart
-        console.log(record.map(v => v.duration))
+      
+        tick = now；
+        lastPart = currentPart；
+        console.log(record.map(v => v.duration))；
      })
 }
 ````
@@ -56,7 +56,7 @@ const mouseTrack = () => {
 
 + 页面加载后， 若鼠标一直不动， 则无法触发事件，进而无法判断所在区域（疑无解）
 + 当用户以较快的速度移动，有时导致统计的时间和所在区域对应错误（统计的准确性有待提高）
-+ 实际需要统计的区域肯定不是均分页面的4块区域， 实际判断鼠标所在区域的计算会更复杂
++ 实际需要统计的区域肯定不是简单均分页面的4块区域， 实际判断鼠标所在区域的计算会更复杂
 
 对于mousemove这类触发频繁的事件， 在其他如drag， window resize， scroll的场景下，可以使用函数节流、防抖等操作优化执行频率，且无明显副作用。但在此需求下，如果时间间隔过大，统计的准确性明显下降，如果时间间隔太小甚至不对触发频率进行限制， 而增加的性能开销也不是我们想要的。
 
@@ -80,6 +80,19 @@ const mouseTrack = () => {
 
 ![pointer-evnets](https://p3.ssl.qhimg.com/t012d3f90a084507415.png)
 
+```
+鼠标首次移动：
+	记录开始时间
+	当前所在区域 pointer-events: none;
+某一区域触发mouseenter事件：
+	该区域变成 pointer-events: none;
+	原来区域 pointer-events: all;
+	记录原区域的停留时间
+	记录进入新区域的时间
+```
+
+
+
 鼠标当前所在的透明的div区域处于事件穿透状态， 其他区域被div正常覆盖，当鼠标移入其他区域时， 移入区域变成事件穿透状态(页面的链接、按钮等功能正常)， 原来区域还原。
 
 
@@ -94,7 +107,7 @@ const mouseTrack = () => {
 
 + pointer-events的兼容性， 兼容到 IE11 (硬伤)
 
-还有一点瑕疵，就是鼠标在不同区域移动时， 需要操作div的pointer-events属性在auto和none之间切换， 且在非鼠标所在区域，透明div是遮挡页面鼠标的各种事件的。能不能不让它遮挡呢？
+还有一点瑕疵，就是鼠标在不同区域移动时， 需要操作div的pointer-events属性在all和none之间切换， 且在非鼠标所在区域，透明div是遮挡页面鼠标的各种事件的。能不能不让它遮挡呢？
 
 
 
@@ -113,15 +126,15 @@ const mouseTrack = () => {
 ```javascript
 const drawsvg = function() {
     const svgns = "http://www.w3.org/2000/svg"; 
-    let svg = document.createElementNS(svgns, 'svg'); 
+    let svg = document.createElementNS(svgns, "svg"); 
     svg.setAttribute(); // other attribute
-    svg.setAttribute("style", `pointer-events: none;`);
+    svg.setAttribute("style", "pointer-events: none;");
 
-    let polygon = document.createElementNS(svgns, 'polygon');
-    polygon.setAttribute()； // other attribute
-    polygon.setAttribute('style', `pointer-events: stroke;`);
+    let polygon = document.createElementNS(svgns, "polygon");
+    polygon.setAttribute(); // other attribute
+    polygon.setAttribute("style", "pointer-events: stroke;");
     
-	svg.appendChild(polygon);
+    svg.appendChild(polygon);
     document.body.appendChild(svg);
 }
 ```
