@@ -36,16 +36,16 @@ const mouseTrack = () => {
       	const { clientX, clientY } = e
         let currentPart : number = 	// 计算所在区域
           Math.floor(clientX / unitWidth) + 
-          n * Math.floor(clientY / unitHeight)；
+          n * Math.floor(clientY / unitHeight);
  
-    	const now = new Date().getTime()；
+    	const now = new Date().getTime();
     	try {
-        	  record[lastPart].duration += now - tick；
+        	  record[lastPart].duration += now - tick;
     	} catch(err) {}
       
-        tick = now；
-        lastPart = currentPart；
-        console.log(record.map(v => v.duration))；
+        tick = now;
+        lastPart = currentPart;
+        console.log(record.map(v => v.duration));
      })
 }
 ````
