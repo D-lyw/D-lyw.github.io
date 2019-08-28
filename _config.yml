@@ -1,43 +1,48 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+# Basic
+title: D-lyw
+subtitle: A blog-orientation theme for Jekyll
+welcome_message: <a href="https://github.com/onevcat/vno-jekyll" target="_blank">Download the theme</a>
+description: Record、Share and Exchange Knowlegde
+creator: <a href="http://onev.cat">@onevcat</a>
 
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-title: D-lyw Blogs 
-email: liuyuanwang4321@mail.com
-description: >- # this means to ignore newlines until "baseurl:"
-        Just do IT
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: 
-github_username:  D-lyw
+url: "http://vno.onevcat.com"
 
-google_analytics: UA-146221372-1
+permalink: /:year/:month/:title/
 
-# Build settings
-markdown: kramdown
-theme: minima
-plugins:
-  - jekyll-feed
+# Format
+highlighter: rouge
 
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+# supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
+#cover_color: slate
+
+# The blog button should not be removed.
+blog_button:
+    title: Blog
+    description: Visit blog
+
+# Navigation buttons in the front page.
+nav:
+      - {title: Gitbook, description: My Gitbook, url: 'https://liuyuanwang4321.gitbook.io/workspace/'}
+    # - {title: Another Button, description: A button, url: 'http://example.com'}
+
+# Pagination
+plugins: [jekyll-paginate]
+paginate: 10
+paginate_path: "page/:num/"
+
+# Comment
+comment:
+    disqus: https-d-lyw-github-io
+    # duoshuo: 
+    
+# Social
+social:
+        # weibo: onevcat
+    github: D-lyw
+    #   twitter: onevcat
+    mail: liuyuanwang4321@gmail.com
+
+# Google Analytics
+ga:
+    id: UA-146221372-1
+    host: https://d-lyw.github.io

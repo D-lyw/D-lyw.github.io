@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: 记Mousetarck的一些技术尝试
 date: 2019-08-15
 categories: work

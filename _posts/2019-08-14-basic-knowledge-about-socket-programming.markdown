@@ -1,5 +1,5 @@
 ---
-default: post
+layout: post
 title: socket网络编程之基础篇
 date: 2019-08-13
 categories: linux socket
