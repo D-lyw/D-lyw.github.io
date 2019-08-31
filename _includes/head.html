@@ -1,7 +1,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="canonical" href="https://dlyw.top">
   <title>{% if page.title %}{{ page.title 个人博客 | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="前端技术博客 html JavaScript Node.js Network Protocol Linux socket Fontend Opensource programer coding share write github">
@@ -20,12 +20,15 @@
 
   <link rel="icon" href="/assets/images/avatar.jpg" />
   
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <!-- <script src="https://kit.fontawesome.com/c2097727c1.js"></script> -->
+
+  <link href="https://s3.ssl.qhres.com/static/c28598a77bb06607.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
   
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
-  
+
 </head>

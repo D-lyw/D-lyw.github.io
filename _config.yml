@@ -1,11 +1,11 @@
 # Basic
 title: D-lyw
-subtitle: A blog-orientation theme for Jekyll
-welcome_message: <a href="https://github.com/onevcat/vno-jekyll" target="_blank">Download the theme</a>
-description: Record、Share and Exchange Knowlegde
-creator: <a href="http://onev.cat">@onevcat</a>
+subtitle: I think, therefore I am.
+welcome_message: I'm on the way ...
+description: Record、Share and Exchange Knowlegde & Thinking
+creator: <a href="https://dlyw.top">D-lyw</a>
 
-url: "http://vno.onevcat.com"
+url: "https://dlyw.top"
 
 permalink: /:year/:month/:title/
 
@@ -41,8 +41,9 @@ social:
     github: D-lyw
     #   twitter: onevcat
     mail: liuyuanwang4321@gmail.com
+    medium: my medium
 
 # Google Analytics
 ga:
     id: UA-146221372-1
-    host: https://d-lyw.github.io
+    host: https://dlyw.top

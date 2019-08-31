@@ -49,4 +49,25 @@ $(document).ready(function() {
     
     $('.btn-mobile-menu__icon').toggleClass('fa fa-list fa fa-angle-up animated fadeIn');
   });
+
+
+
+  // 加载 css 文件
+
+  function addCssByLink(url){
+    var doc=document;
+    var link=doc.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+      link.setAttribute("type", "text/css");
+      link.setAttribute("href", url);
+  
+    var heads = doc.getElementsByTagName("head");
+    if(heads.length)
+      heads[0].appendChild(link);
+    else
+      doc.documentElement.appendChild(link);
+  }
+  // addCssByLink('https://s3.ssl.qhres.com/static/c28598a77bb06607.css');
+  // addCssByLink('/css/main.css');
+  addCssByLink('https://lib.baomitu.com/animate.css/3.7.2/animate.min.css');
 });

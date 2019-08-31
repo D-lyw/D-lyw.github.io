@@ -1,6 +1,11 @@
 // ------------------------------
 // BASICS
 // ------------------------------
+@font-face {
+  font-family: 'Pacifico';
+  src: local('Pacifico Regular'), url('https://s0.ssl.qhres.com/static/61cefbcf6e389919.woff2?v=4.7.0');
+  font-display: swap;
+}
 
 html, body {
   height: 100%;
