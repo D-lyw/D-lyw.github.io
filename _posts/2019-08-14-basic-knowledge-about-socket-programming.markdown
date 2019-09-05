@@ -1,6 +1,6 @@
 ---
 layout: post
-title: socket网络编程之基础篇
+title: Socket网络编程之基础篇
 date: 2019-08-13
 categories: linux socket
 ---
@@ -9,13 +9,15 @@ categories: linux socket
 
 ## 一. 客户机/服务器模型
 
-网络应用程序一般是以c/s模型的方式工作的,因特网便是c/s模型的一个典型例子,在这种工作方式中,一个服务器通常事先启动,并在一个熟知端口帧听对服务器的请求,如ftp服务器,web服务器等.当客户机应用程序需要某种服务时,需向提供这个服务的服务器发出请求,服务器收到请求后,向客户机发出相应请求服务.这样客户机应用程序和服务器程序之间就建立了通信连接,此后便可以进行数据通信,通信任务完成后,需要关闭它们之间的通信连接.
+网络应用程序一般是以 c/s 模型的方式工作的,因特网便是 c/s 模型的一个典型例子,在这种工作方式中,一个服务器通常事先启动,并在一个熟知端口帧听对服务器的请求,如ftp服务器,web服务器等.当客户机应用程序需要某种服务时,需向提供这个服务的服务器发出请求,服务器收到请求后,向客户机发出相应请求服务.这样客户机应用程序和服务器程序之间就建立了通信连接,此后便可以进行数据通信,通信任务完成后,需要关闭它们之间的通信连接.
 
 ￼![C_S_chart_flow](https://img-blog.csdnimg.cn/2018120111460362.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTU4Mjg1,size_16,color_FFFFFF,t_70)
 
 ## 二. 网络套接字(socket)介绍
 
-在网路中要全局的标示一个参与通信的进程,需要采用三元组:　协议，　主机ip地址,端口号.要描述两个应用进程之间的端到端的通信则需要一个五元组: 协议,信源机ip地址,信源应用进程端口, 信宿机ip地址,信宿应用进程端口.那么从程序设计的角度如何实现两个应用进程的通信连接的建立,并如何实现两个进程指佳酿数据传输呢?人们引入套接字(Socket)的概念.
+在网路中要全局的标示一个参与通信的进程,需要采用三元组:　***协议，主机ip地址,端口号***.
+要描述两个应用进程之间的端到端的通信则需要一个五元组: ***协议,信源机ip地址,信源应用进程端口, 信宿机ip地址,信宿应用进程端口***.
+那么从程序设计的角度如何实现两个应用进程的通信连接的建立,并如何实现两个进程指佳酿数据传输呢?人们引入套接字(Socket)的概念.
 
 ￼![Socket_flow](https://img-blog.csdnimg.cn/20181201114726459.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2OTU4Mjg1,size_16,color_FFFFFF,t_70)
 
@@ -34,12 +36,13 @@ socket这个词可以表示很多概念：
 
 Socket进一步介绍:
 	`socket是使用标准unix文件描述符(file descriptor)和其他程序通讯的方式`. Unix中的一切都是文件,接触过Unix/Linux,就一定会听过这句话. 实际上, unix程序在执行任何形式的I/O时,程序都是在读或者写一个文件描述符. 一个文件描述符只是一个跟打开的文件相关联的整数, 这个文件可能是一个网络连接, FIFO, 管道, 终端, 文件或者什么其他东西. 所以你要和网络上的其他程序通信时,你就要用到文件描述符, 那怎么得到网络通信的文件描述符呢?
-	利用系统调用socket((),它会返回套接字描述符(socket descriptor), 然后就可以用它来send(), recv() ,发送接收数据.
+	利用系统调用socket(),它会返回套接字描述符(socket descriptor), 然后就可以用它来send(), recv() ,发送接收数据.
+
 
 
 ## 三. 套接字编程基础
 
-> Tcp/Ip的核心内容被封装在操作系统中,网络应用程序要使用tcp/ip来实现自己的功能,需要通过操作系统提供给用户的编程借口来实现. 套接字就是Tcp/Ip网络编程接口的集合,他是应用程序预tcp/ip协议族通信的中间软件抽象层.
+> Tcp/Ip 的核心内容被封装在操作系统中,网络应用程序要使用 Tcp/Ip 来实现自己的功能,需要通过操作系统提供给用户的编程接口来实现. 套接字就是 Tcp/Ip 网络编程接口的集合,他是应用程序 Tcp/Ip 协议族通信的中间软件抽象层.
 
 ### 1. socket
 
@@ -54,12 +57,12 @@ int socket(int domain, int type,int protocol)
 // DESCRIPTION
 //       socket() creates an endpoint for communication and returns a file descriptor that 
 //       refers to that endpoint.  The file descriptor returned by a successful call will 
-// 	     be the lowest-numbered file descrip‐tor not currently open for the process.
+//       be the lowest-numbered file descrip‐tor not currently open for the process.
 
 ```
-**domain**: 说明我们网络程序所在的主机采用的通讯协族(AF_UNIX 和 AF_INET 等). AF_UNIX 只能够用于单一的 Unix 系统进程间通信,而 AF_INET 是针对 Internet 的,因而可以允许在远程 主机之间通信(当我们 man socket 时发现 domain 可选项是 PF_*而不是 AF_*,因为glibc 是 posix 的实现 所以用 PF 代替了 AF,不过我们都可以使用的).
+**domain**: 说明我们网络程序所在的主机采用的通讯协族(AF_UNIX 和 AF_INET 等). AF_UNIX 只能够用于单一的 Unix 系统进程间通信,而 AF_INET 是针对 Internet 的,因而可以允许在远程主机之间通信(当我们 man socket 时发现 domain 可选项是 PF_*而不是 AF_*,因为glibc 是 posix 的实现 所以用 PF 代替了 AF,不过我们都可以使用的).
 
-**type**: 我们网络程序所采用的通讯协议(SOCK_STREAM,SOCK_DGRAM 等) 
+**type**: 指网络程序所采用的通讯协议(SOCK_STREAM,SOCK_DGRAM 等) 
 
 + `SOCK_STREAM` (流套接字) 表明我们用的是 TCP 协议,这样会提供按顺序的,可靠,双向,面向连接的比特流. 
 
@@ -68,17 +71,18 @@ int socket(int domain, int type,int protocol)
 + `SOCK_RAW` (原始套接字) 表明这是个原始套接字, 相对与上面两种类型, 提供了更多的功能, 实现ping/traceruoute等均需要创建此类套接字
 
 	| 网络层次 |  Operation | SOCK_STREAM / SOCK_DGRAM | SOCK_ROW|
-	|-------------| -----------| ----- | ---- |
-	| 应用层(Application Layer) | telnet, ftp, http, dns...|	√ |  √ |
+	| ------------- | ----------- | -------------- | ---------------------- |
+	| 应用层(Application Layer) | telnet, ftp, http, dns... |	√  |  √  |
 	| 传输层(Transport Layer) | TCP, UDP | √(数据部分) | √  |
-	| 网络层(Internet Layer) | IP  |  ×	|	√|
-	| 数据链路层(Data link) | MAC | 	×	| 	√|
+	| 网络层(Internet Layer) | IP  |  ×	|	√  |
+	| 数据链路层(Data link) | MAC | 	×	| 	√  |
+
 	链路层的原始套接字可以直接用于接收和发送链路层的MAC帧，在发送时需要由调用者*自行构造和封装MAC首部*。
 	网络层的原始套接字可以直接用于接收和发送IP层的报文数据，在发送时需要*自行构造IP报文头*
 	
 	一般的套接字只能操作传输层的数据部分的内容, 我们只能将发送的数据(buffer)传递给系统, 系统帮我们给数据加上tcp/udp头部,再加上ip头部, 再给发出去; 而使用原始套接字 需要我们自己构造每个部分, 系统只是将它发出去, 想一想, 这是不是多了好多乐趣呢 \^_\^ 
 	
-	注: 原始套接字需要root权限, 针对具体情况使用相应套接字类型, 推荐阅读$书籍$^[UNIX网络编程 卷1：套接字联网API]
+	注: 原始套接字需要root权限, 针对具体情况使用相应套接字类型, 推荐阅读书籍 [UNIX网络编程 卷1：套接字联网API](https://github.com/D-lyw/ShareBook/tree/master/Network)
 	
 **protocol** :由于我们指定了 type,所以这个地方我们一般只要用 0 来代替就可以了,  socket 为网络通讯做基本的准备. 如果我们使用的是原始套接字,这个时候系统是不知道你要发送什么类型数据结构的数据, 这时候就需要指定协议类型, 如 IPPROTO_ICMP, IPPROTO_TCP, IPPROTO_UDP等.
 
@@ -148,18 +152,17 @@ bind 将本地的端口同 socket 返回的文件描述符捆绑在一起.成功
 
 int main(void)
 {
-	int sockfd;												// 定义套接字
-	struct sockaddr_in my_addr;								// 定义存储本地地址信息的结构体
-	sockfd = socket(PF_INET, SOCK_STREAM, 0);				// 创建套接字
+	int sockfd;							// 定义套接字
+	struct sockaddr_in my_addr;					// 定义存储本地地址信息的结构体
+	sockfd = socket(PF_INET, SOCK_STREAM, 0);	               	// 创建套接字
 	
 	my_addr.sin_family = AF_INET;
 	my_addr.sin_port = htons(_INT_PORT);
 	my_addr.sin_addr.s_addr = inet_addr("132.241.5.10");
 	
 	bzero(&(my_addr.sin_zero), sizeof(my_addr.sin_zero));
-	if(bind(sockfd, (struct sockaddr *)&my_addr,sizeof(struct sockaddr_in)) == -1){			// 绑定套接字
-		fprintf(stderr, "Bind socket error, %s
-", perror(errno));
+	if(bind(sockfd, (struct sockaddr *)&my_addr,sizeof(struct sockaddr_in)) == -1){	// 绑定套接字
+		fprintf(stderr, "Bind socket error, %s ", perror(errno));
 		exit(errno);
 	}
 }
@@ -221,12 +224,12 @@ int main(void)
 	my_addr.sin_addr.s_addr = INADDR_ANY;
 	
 	bzero(&(my_addr.sin_zero),sizeof(my_addr.sin_zero));
-	bind(sockfd, (struct sockaddr *)&my_addr,sizeof(struct sockaddr));// 绑定套接字
+	bind(sockfd, (struct sockaddr *)&my_addr,sizeof(struct sockaddr));  		// 绑定套接字
 	
-	listen(sockfd, 10);														// 监听套接字
+	listen(sockfd, 10);								// 监听套接字
 	
 	sin_size = sizeof(struct sockaddr_in);
-	new_fd = accept(sockfd, &their_addr, &sin_size);						// 接收套接字
+	new_fd = accept(sockfd, &their_addr, &sin_size);				// 接收套接字
 }
 ```
 
@@ -285,7 +288,7 @@ Tcp/Ip协议规定, 网络传输字节顺序为高位优先,为了使网络程�
 
     uint32_t htonl(uint32_l hostlong);		// "Host to Network Long"
     uint16_t htons(uint16_t hostshort);		// "Host to Network Short"
-    uint32_t ntohl(uint32_t netlong);			// "Network to Host Long"
+    uint32_t ntohl(uint32_t netlong);		// "Network to Host Long"
     uint16_t ntohs(uint16_t netshort);		// "Network to Host Short"
 ```
 
@@ -329,10 +332,10 @@ struct hostent *gethostbyname(const char *name);
 
 struct hostent
 {
-	char *h_name;			// 地址的正式名称
+	char *h_name;		// 地址的正式名称
 	char **h_aliases;	// 空字节-地址的预备名称的指针
 	int h_addrtype;		// 地址类型; 通常是 AF_INET
-	int h_length;			// 地址的比特长度
+	int h_length;		// 地址的比特长度
 	char **h_addr_list;	// 零字节-主机网络地址指针。网络字节顺序
 };
 #define h_addr h_addr_list[0]
@@ -355,8 +358,7 @@ int main(int argc, char* argv[]){
 	char** pptr;
 	int type;
 	if(argc != 2){
-		fprintf(stderr, "usage: ./filename [address]
-");
+		fprintf(stderr, "usage: ./filename [address] ");
 		exit(EXIT_FAILURE);
 	}
 	if(!(ht = gethostbyname(argv[1]))){
@@ -364,22 +366,17 @@ int main(int argc, char* argv[]){
 		exit(EXIT_FAILURE);
 	}
 	//打印所有信息
-	printf("Host name is: %s
-", ht->h_name);
+	printf("Host name is: %s ", ht->h_name);
 	//打印所有的主机地址
 	for(pptr=ht->h_aliases; (*pptr); ++pptr)
-		printf("alias of host: %s
-", *pptr);
-	printf("Host addrtype is: %d
-", type = ht->h_addrtype);
-	printf("Host length is: %d
-", ht->h_length);
+		printf("alias of host: %s ", *pptr);
+	printf("Host addrtype is: %d ", type = ht->h_addrtype);
+	printf("Host length is: %d ", ht->h_length);
 	if(type==AF_INET || type==AF_INET6){
 		char ip[32];
 		for(pptr = ht->h_addr_list; (*pptr); ++pptr){
 			inet_ntop(type, *pptr, ip, sizeof ip);
-			printf("address: %s
-", ip);
+			printf("address: %s ", ip);
 		}
 	}
 	return 0;
@@ -502,15 +499,13 @@ int main(int argc, char const *argv[])
 
     // 绑定套接字
     if(bind(listenfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) == -1){
-        fprintf(stderr, "绑定套接字失败,%s
-", strerror(errno));
+        fprintf(stderr, "绑定套接字失败,%s ", strerror(errno));
         exit(errno);
     }
 
     // 监听请求
     if(listen(listenfd, 10) == -1){
-        fprintf(stderr, "绑定套接字失败,%s
-", strerror(errno));
+        fprintf(stderr, "绑定套接字失败,%s ", strerror(errno));
         exit(errno);
     }
 
@@ -520,14 +515,12 @@ int main(int argc, char const *argv[])
     while (1){
         // 接受由客户机进程调用connet函数发出的连接请求
         recvfd = accept(listenfd, (struct sockaddr *)&clientaddr, &cliaddr_len);
-        printf("接收到请求套接字描述符: %d
-", recvfd);
+        printf("接收到请求套接字描述符: %d ", recvfd);
 
         while(1){
             // 在已建立连接的套接字上接收数据
             if((recvLen = recv(recvfd, recvBuf, 1024, 0)) == -1){
-                fprintf(stderr,"接收数据错误, %s
-",strerror(errno));
+                fprintf(stderr,"接收数据错误, %s ",strerror(errno));
             }
             printf("%s", recvBuf);
         }
@@ -576,8 +569,7 @@ int main(int argc, char const *argv[])
 
     // 创建套接字
     if((clifd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
-        fprintf(stderr, "创建套接字失败,%s
-", strerror(errno));
+        fprintf(stderr, "创建套接字失败,%s ", strerror(errno));
         exit(errno);
     }
 
@@ -588,24 +580,20 @@ int main(int argc, char const *argv[])
 
     // 请求连接服务器进程
     if(connect(clifd, (struct sockaddr *)&cliaddr_in, sizeof(struct sockaddr)) == -1){
-        fprintf(stderr,"请求连接服务器失败, %s
-", strerror(errno));
+        fprintf(stderr,"请求连接服务器失败, %s ", strerror(errno));
         exit(errno);
     }
-    strcpy(sendBuf, "hi,hi, severs!
-");
+    strcpy(sendBuf, "hi,hi, severs!  ");
     // 发送打招呼消息
     if(send(clifd, sendBuf, 1024, 0) == -1){
-        fprintf(stderr, "send message error:(, %s
-", strerror(errno));
+        fprintf(stderr, "send message error:(, %s ", strerror(errno));
         exit(errno);
     }
     // 阻塞等待输入,发送消息
     while(1){
         fgets(sendBuf, 1024, stdin);
         if(send(clifd, sendBuf, 1024, 0) == -1){
-            fprintf(stderr, "send message error:(, %s
-", strerror(errno));
+            fprintf(stderr, "send message error:(, %s ", strerror(errno));
         }
     }
     close(clifd);
