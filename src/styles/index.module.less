@@ -1,0 +1,48 @@
+article + article {
+  margin-top: 50px;
+}
+
+.articleTitle {
+  line-height: 30px;
+  font-weight: 600;
+  font-size: 1.2em;
+  margin: 1em 0 0.8em;
+  color: #1f1f1f;
+  a {
+    color: #1f1f1f;
+    text-decoration: none;
+    transition: 0.5s;
+  }
+  &::before {
+    content: "# ";
+    color: #555;
+  }
+}
+
+.articleMate {
+  color: #ccc;
+  font-size: 0.8em;
+  padding: 20px 0 40px;
+  border-bottom: 1px solid #f3f3f3;
+  span {
+    margin-right: 2.5em;
+    color: #999;
+    svg {
+      height: 18px;
+      width: 18px;
+      vertical-align: text-bottom;
+      margin-right: 0.5em;
+    }
+  }
+}
+
+.shortIntro {
+  p {
+    font-size: 0.875em;
+    color: #333;
+    letter-spacing: 0.2px;
+    line-height: 2em;
+    text-align: left;
+    margin-bottom: 1em;
+  }
+}
