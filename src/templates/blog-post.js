@@ -5,12 +5,20 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
-import { Disqus, CommentCount } from "gatsby-plugin-disqus"
+import { Disqus } from "gatsby-plugin-disqus"
+import styles from "../styles/blogPost.module.less"
+import Calendar from "../assert/calendar.svg"
+import Tags from "../assert/label.svg"
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark
   const siteTitle = data.site.siteMetadata.title
   const { previous, next } = pageContext
+
+  const disqusConfig = {
+    title: post.frontmatter.title,
+    id: post.id,
+  }
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -18,7 +26,7 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
-      <article>
+      <article style={{ padding: "0 5%" }}>
         <header>
           <h1
             style={{
@@ -33,9 +41,21 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
               ...scale(-1 / 5),
               display: `block`,
               marginBottom: rhythm(1),
+              color: "#999",
+              marginTop: "1em",
             }}
           >
-            {post.frontmatter.date}
+            <span>
+              <Calendar
+                style={{
+                  width: "1.2em",
+                  height: "1.2em",
+                  verticalAlign: "middle",
+                }}
+              />
+              &nbsp;
+              {post.frontmatter.date}
+            </span>
           </p>
         </header>
         <section dangerouslySetInnerHTML={{ __html: post.html }} />
@@ -44,37 +64,27 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
             marginBottom: rhythm(1),
           }}
         />
-        <footer>
-          <Bio />
-        </footer>
-        {/* <CommentCount /> */}
-        <Disqus />
+        <Disqus config={disqusConfig} />
       </article>
 
       <nav>
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
-          <li>
-            {previous && (
+        <ul className={styles.pageChanger}>
+          {previous && (
+            <li className={styles.beforePage}>
               <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
+                {/* ←  */}
+                {previous.frontmatter.title}
               </Link>
-            )}
-          </li>
-          <li>
-            {next && (
+            </li>
+          )}
+          {next && (
+            <li className={styles.afterPage}>
               <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
+                {next.frontmatter.title}
+                {/* → */}
               </Link>
-            )}
-          </li>
+            </li>
+          )}
         </ul>
       </nav>
     </Layout>

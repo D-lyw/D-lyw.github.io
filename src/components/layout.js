@@ -3,23 +3,24 @@ import { Link } from "gatsby"
 
 import { rhythm, scale } from "../utils/typography"
 import styles from "../styles/layout.module.less"
+import Logo from "../assert/logo.svg"
+import { Carousel } from "antd"
+import { words } from "../utils/words"
+
 const Layout = ({ location, title, children }) => {
   const rootPath = `${__PATH_PREFIX__}/`
 
   const header = (
     <>
       <Link className={styles.headerLogo}>
-        <img
-          src="https://tsb2blog.com/usr/uploads/2020/07/1084504593.png"
-          alt="logo"
-        ></img>
+        <Logo style={{ width: "65px", height: "65px" }} />
       </Link>
       <div className={styles.headerDescription}>
         <h1>D-lyw</h1>
         <h2>读书思考敲代码</h2>
         <ul className={styles.headerNav}>
           <li>
-            <Link>首页</Link>
+            <Link to="/">首页</Link>
           </li>
           <li>
             <Link>生活</Link>
@@ -28,11 +29,11 @@ const Layout = ({ location, title, children }) => {
             <Link>技术</Link>
           </li>
           <li>
-            <Link>关于</Link>
+            <Link to="/about">关于</Link>
           </li>
-          <li>
+          {/* <li>
             <Link>RSS</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </>
@@ -40,9 +41,29 @@ const Layout = ({ location, title, children }) => {
   return (
     <>
       <div className={styles.wrapper}>
-        <header>{header}</header>
+        <header className={styles.layoutHeader}>{header}</header>
         <main className={styles.articleList}>{children}</main>
-      </div>{" "}
+      </div>
+      <Carousel
+        autoplay={true}
+        dots={false}
+        autoplaySpeed={10000}
+        speed={1000}
+        easing={"ease-in"}
+        className={styles.carouselWrapper}
+        effect={"fade"}
+      >
+        {words.map(({ value, source, link }, index) => {
+          return value ? (
+            <div key={index}>
+              <span className={styles.wordsString}>
+                {link ? <Link to={link}>{value}</Link> : value}
+              </span>
+              <span className={styles.wordsSource}>-- {source}</span>
+            </div>
+          ) : null
+        })}
+      </Carousel>
       <footer>
         © {new Date().getFullYear()}, Built with
         {` `}
