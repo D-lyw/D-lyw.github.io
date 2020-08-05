@@ -45,16 +45,16 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
               marginTop: "1em",
             }}
           >
-            <span>
+            <span style={{ fontSize: "0.75em" }}>
               <Calendar
                 style={{
-                  width: "1.2em",
-                  height: "1.2em",
-                  verticalAlign: "middle",
+                  width: "1.8em",
+                  height: "1.8em",
+                  // fontSize: "1em",
+                  verticalAlign: "text-bottom",
                 }}
               />
-              &nbsp;
-              {post.frontmatter.date}
+              &nbsp; {post.frontmatter.date} &nbsp;约{post.timeToRead}分钟阅读
             </span>
           </p>
         </header>
@@ -104,6 +104,7 @@ export const pageQuery = graphql`
       id
       excerpt(pruneLength: 160)
       html
+      timeToRead
       frontmatter {
         title
         date(formatString: "YYYY-MM-DD")
