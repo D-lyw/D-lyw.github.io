@@ -3,12 +3,12 @@ module.exports = {
     title: `D-lyw' Blog`,
     author: {
       name: `D-lyw`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      summary: `读书思考敲代码！`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.app/`,
+    description: `D-lyw 个人博客，阅读、思考、写作、敲代码！`,
+    siteUrl: `https://dlyw.top`,
     social: {
-      twitter: `kylemathews`,
+      // twitter: `kylemathews`,
     },
   },
   plugins: [
@@ -84,13 +84,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `D-lyw 个人博客`,
+        short_name: `D-lyw'Blog`,
         start_url: `/`,
         background_color: `#f7f7f7`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
+        icon: `content/assets/logo-icon.png`,
       },
     },
     `gatsby-plugin-react-helmet`,
